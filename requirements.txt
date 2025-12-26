@@ -1,0 +1,7 @@
+pandas
+numpy
+faker
+pyarrow
+google-cloud-storage
+dbt
+dbt-bigquery
