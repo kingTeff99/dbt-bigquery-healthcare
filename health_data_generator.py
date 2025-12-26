@@ -10,7 +10,7 @@ import json
 from google.cloud import storage
 
 # We specify the filepath for json key file
-key_file_path = 'C:\Users\\teffm\Documents\PROGRAMMING\DATA_ENGINEERING\healthcare-data-project-482216-cb3af346ad83.json'
+key_file_path = '/mnt/c/Users/teffm/Documents/PROGRAMMING/DATA_ENGINEERING/healthcare-data-project-482216-cb3af346ad83.json'
 storage_client = storage.Client.from_service_account_json(key_file_path)
 
 buckets = list(storage_client.list_buckets())
@@ -19,7 +19,8 @@ for bucket in buckets:
     print(f" - {bucket.name}")
 fake = Faker()
 
-BUCKET_NAME = 'health-data-bucket'
+PROJECT_ID = 'healthcare-data-project-482216'
+BUCKET_NAME = f"{PROJECT_ID}-bucket".lower()
 DEV_PATH = 'dev/'
 PROD_PATH = 'prod/'
 
@@ -33,7 +34,7 @@ def create_bucket():
     try:
         bucket = storage_client.bucket(BUCKET_NAME)
         if not bucket.exists():
-            bucket = storage_client.create_bucket(BUCKET_NAME)
+            storage_client.create_bucket(BUCKET_NAME)
             print(f"Bucket {BUCKET_NAME} created successfully.")
         else:
             print(f"Bucket {BUCKET_NAME} already exists.")
@@ -64,7 +65,7 @@ def upload_to_gcs(data, path, filename, file_format):
         buffer = io.BytesIO()
         pq.write_table(data, buffer)
         buffer.seek(0)
-        blob.upload_from_string(buffer, content_type='application/octet-stream')
+        blob.upload_from_file(buffer, content_type='application/octet-stream')
     print(f"Upload of {filename} completed to {path}.")
 
 def generate_patients(num_records):
@@ -90,7 +91,8 @@ def generate_patients(num_records):
             'insurance_type': insurance_type,
             'registration_date': str(registration_date)
         })
-        return pd.DataFrame(patients)
+    
+    return pd.DataFrame(patients)
     
 def generate_ehr(num_records, patient_ids):
     print("Generating Electronic health records data in newline-delimited JSON format ...")
@@ -192,7 +194,8 @@ def main():
     claims_prod = generate_claims(PROD_PRODS, patients_prod['patient_id'].tolist())
     upload_to_gcs(claims_prod, PROD_PATH, 'claims_prod.parquet', 'parquet')
 
-print("Data generation and upload completed successfully.")
 
 if __name__ == "__main__":
     main()
+    print("Data generation and upload completed successfully.")
+
