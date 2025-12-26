@@ -1,0 +1,60 @@
+version : 2
+
+models:
+  - name: chronic_conditions_summary
+    description: "Summarizes the prevalence of chronic conditions among patients"
+    columns:
+      - name: diagnosis_code
+        tests:
+          - unique
+          - not_null
+      - name: diagnosis_desc
+        tests:
+          - not_null
+      - name: patient_count
+        tests:
+          - not_null
+
+  - name: patient_demographics
+    description: " Patient demographics __ "
+    columns:
+      - name: patient_id
+        tests:
+          - not_null
+      - name: gender
+        tests:
+          - not_null
+      - name: patient_count
+        tests:
+          - not_null
+
+  - name: claims_status_summary
+    description: " Patient demographics __ "
+    columns:
+      - name: claim_id
+        tests:
+          - unique
+          - not_null
+      - name: status
+        tests:
+          - not_null
+
+  - name: high_claim_patients
+    description: " Selected high claim patients with a total amount above 10000"
+    columns:
+      - name: patient_id
+        tests:
+          - unique
+          - not_null
+      - name: total_claim_amount
+        tests:
+          - not_null
+
+  - name: my_second_dbt_model
+    description: "A starter dbt model"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
