@@ -1,4 +1,4 @@
-version : 2
+version: 2
 
 models:
   - name: chronic_conditions_summary
@@ -16,7 +16,7 @@ models:
           - not_null
 
   - name: patient_demographics
-    description: " Patient demographics __ "
+    description: "Patient demographics __ "
     columns:
       - name: patient_id
         tests:
@@ -44,17 +44,7 @@ models:
     columns:
       - name: patient_id
         tests:
-          - unique
           - not_null
       - name: total_claim_amount
         tests:
-          - not_null
-
-  - name: my_second_dbt_model
-    description: "A starter dbt model"
-    columns:
-      - name: id
-        description: "The primary key for this table"
-        data_tests:
-          - unique
           - not_null

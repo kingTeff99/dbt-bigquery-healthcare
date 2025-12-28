@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: healthcare_data
     database: healthcare-data-project-482216
-    schema: "{{ var('schema_name', 'dev_healthcare_data') }}"
+    schema: "dev_healthcare_data"
     tables:
       - name: patient_data_external
         description: "External table for patient demographic data in GCS."
@@ -12,7 +12,7 @@ sources:
             tests:
               - unique
               - not_null
-          - name : gender
+          - name: gender
             tests:
               - not_null
       
